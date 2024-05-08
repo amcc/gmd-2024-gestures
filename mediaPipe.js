@@ -1,14 +1,14 @@
 // remote
-// import {
-//   GestureRecognizer,
-//   FilesetResolver,
-// } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
-
-// local
 import {
   GestureRecognizer,
   FilesetResolver,
-} from "./mediapipe/tasks-vision@0.10.3.js";
+} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+
+// local
+// import {
+//   GestureRecognizer,
+//   FilesetResolver,
+// } from "./mediapipe/tasks-vision@0.10.3.js";
 
 // make an object to export
 // at the end of the file this has the predictWebCam function added
@@ -31,18 +31,18 @@ let lastVideoTime = -1;
 // get everything needed to run.
 const createPoseLandmarker = async () => {
   //remote
-  // const vision = await FilesetResolver.forVisionTasks(
-  //   "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
-  // );
+  const vision = await FilesetResolver.forVisionTasks(
+    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+  );
 
   //local
-  const vision = await FilesetResolver.forVisionTasks("./mediapipe/wasm");
+  // const vision = await FilesetResolver.forVisionTasks("./mediapipe/wasm");
   gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
     baseOptions: {
       //remote
-      // modelAssetPath: `https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task`,
+      modelAssetPath: `https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task`,
       //local
-      modelAssetPath: `./mediapipe/gesture_recognizer.task`,
+      // modelAssetPath: `./mediapipe/gesture_recognizer.task`,
       delegate: "GPU",
     },
     runningMode: runningMode,

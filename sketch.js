@@ -74,6 +74,16 @@ function draw() {
   // background(255);
   clear();
 
+  if (!mediaPipe.loaded && frameCount > 30) {
+    textAlign(CENTER, CENTER);
+    textFont("Roboto");
+    textSize(width / 12);
+    text(
+      "loading gestures",
+      width / 2,
+      height / 2 + (sin(frameCount / 80) * height) / 15
+    );
+  }
   // flip the webcam image so it looks like a mirror
   push();
   scale(-1, 1); // mirror webcam
