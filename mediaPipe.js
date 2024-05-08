@@ -1,12 +1,20 @@
+// remote
+// import {
+//   GestureRecognizer,
+//   FilesetResolver,
+// } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+
+// local
 import {
   GestureRecognizer,
   FilesetResolver,
-} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+} from "./mediapipe/tasks-vision@0.10.3.js";
 
 // make an object to export
 // at the end of the file this has the predictWebCam function added
 // it is then exported for use in the sketch.js file
 const mediaPipe = {
+  loaded: false,
   handednesses: [],
   landmarks: [],
   worldLandmarks: [],
@@ -22,12 +30,19 @@ let lastVideoTime = -1;
 // loading. Machine Learning models can be large and take a moment to
 // get everything needed to run.
 const createPoseLandmarker = async () => {
-  const vision = await FilesetResolver.forVisionTasks(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
-  );
+  //remote
+  // const vision = await FilesetResolver.forVisionTasks(
+  //   "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+  // );
+
+  //local
+  const vision = await FilesetResolver.forVisionTasks("./mediapipe/wasm");
   gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
     baseOptions: {
-      modelAssetPath: `https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task`,
+      //remote
+      // modelAssetPath: `https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task`,
+      //local
+      modelAssetPath: `./mediapipe/gesture_recognizer.task`,
       delegate: "GPU",
     },
     runningMode: runningMode,
@@ -47,6 +62,10 @@ const predictWebcam = async (video) => {
     mediaPipe.landmarks = results.landmarks;
     mediaPipe.worldLandmarks = results.worldLandmarks;
     mediaPipe.gestures = results.gestures;
+    if (mediaPipe.loaded === false) {
+      mediaPipe.loaded = true;
+      console.log("loaded");
+    }
   }
 
   // Call this function again to keep predicting when the browser is ready.
